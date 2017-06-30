@@ -1,2 +1,4 @@
-# project-cloud-pos-up
-Final project of the cloud computing discipline
+<p align="center">
+  <h2 align="center">Project Pos Cloud UP</h2>
+</p>
+
