@@ -1,0 +1,45 @@
+version: "2"
+
+networks:
+  default:
+    external:
+      name: main
+
+services:
+  ###
+  # APIs
+  ###
+  api:
+    build:
+      context: ../api
+      args:
+        debug: "true"
+    image: cloud-pos/api
+    container_name: cloud-pos-up
+    environment:
+      - APP_DEBUG=true
+      - APP_ENV=development
+      - APP_FALLBACK_LOCALE=pt-br
+      - APP_LOCALE=pt-br
+      - CACHE_DRIVER=array
+      - DB_CONNECTION=mysql
+      - DB_DATABASE=cloud_pos
+      - DB_HOST=mysql
+      - DB_PASSWORD=root
+      - DB_PORT=3306
+      - DB_USERNAME=root
+      - VERSION=development
+      - VIRTUAL_HOST=api.cloud-pos.local
+      - VIRTUAL_PORT=8000
+    external_links:
+      - web_base-mysql:mysql
+      - web_base-nginx_proxy
+    expose:
+      - "8000"
+    volumes:
+      - ../:/mnt/base
+      - ../api:/application
+      - /application/vendor
+    working_dir: /application
+    entrypoint: php
+    command: -S 0.0.0.0:8000 -t public
